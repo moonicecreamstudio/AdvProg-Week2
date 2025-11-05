@@ -29,6 +29,17 @@ public class Sim : MonoBehaviour
         }
         traitsText.text = traitsValue;
 
+        //Initialize the needs map by adding an entry for every Need enum value
+        //uses random number for the need: will be used to set a colour
+        //Unity colours are a float 0 to 1, Random.Range upper value is EXCLUSIVE
+        //so won't generate a value of 1 if the upper range is 1.0 (sigh)
+        //(this data doesn't change during play...yet...but is where that will be kept track of)
+        foreach (SimData.Need n in System.Enum.GetValues(typeof(SimData.Need)))
+        {
+            inSimData.needsMap.Add(n, Random.Range(0, 1.1f));
+        }
+
+        //Initialise the needs visual using the data in the needs map
         foreach(KeyValuePair<SimData.Need, float> need in inSimData.needsMap)
         {
             GameObject needObject = Instantiate(needVisualPrefab, needVisualsHolder);
